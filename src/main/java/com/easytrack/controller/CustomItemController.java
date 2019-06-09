@@ -2,13 +2,18 @@ package com.easytrack.controller;
 
 import com.easytrack.model.*;
 import com.easytrack.repository.*;
+import org.hibernate.AssertionFailure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,6 +113,11 @@ public class CustomItemController {
 
     @GetMapping("items/chart")
     public List<CustomItem> getItemPriceHistory(@RequestParam String url){
+        try {
+            url = URLEncoder.encode(url,"UTF-8");
+        } catch(UnsupportedEncodingException e){
+            throw new AssertionFailure(("UTF-8 is unknown"));
+        }
         Item item = itemRepository.findByUrl(url);
         List<PriceHistory> priceHistoryList = getLastRecords(item);
         List<CustomItem> itemPriceHistory = new ArrayList<>();
