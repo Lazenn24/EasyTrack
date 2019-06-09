@@ -138,6 +138,14 @@ public class CustomItemController {
 
     }
 
+    @PostMapping("/insertWeb")
+    public String insertWeb(@RequestBody Web web){
+        webRepository.save(web);
+        Web returnWeb = webRepository.findByName(web.getName());
+
+        return returnWeb.getName() + ", " + returnWeb.getPriceTag();
+    }
+
     //Private methods
 
     private List<PriceHistory> getLastRecords(Item item){
