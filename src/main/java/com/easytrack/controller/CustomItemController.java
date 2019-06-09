@@ -112,12 +112,9 @@ public class CustomItemController {
     }
 
     @GetMapping("items/chart")
-    public List<CustomItem> getItemPriceHistory(@RequestParam String url){
-        try {
-            url = URLEncoder.encode(url,"UTF-8");
-        } catch(UnsupportedEncodingException e){
-            throw new AssertionFailure(("UTF-8 is unknown"));
-        }
+    public List<CustomItem> getItemPriceHistory(@RequestParam String url) throws URISyntaxException{
+        URI uri = new URI(url);
+        url = uri.toString();
         Item item = itemRepository.findByUrl(url);
         List<PriceHistory> priceHistoryList = getLastRecords(item);
         List<CustomItem> itemPriceHistory = new ArrayList<>();
