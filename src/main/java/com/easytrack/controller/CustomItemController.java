@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -136,14 +135,6 @@ public class CustomItemController {
 
         return webRepository.findByName(domain);
 
-    }
-
-    @PostMapping("/insertWeb")
-    public String insertWeb(@RequestBody Web web){
-        webRepository.save(web);
-        Web returnWeb = webRepository.findByName(web.getName());
-
-        return returnWeb.getName() + ", " + returnWeb.getPriceTag();
     }
 
     //Private methods
